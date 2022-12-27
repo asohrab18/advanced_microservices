@@ -21,6 +21,8 @@ public class RatingsResource {
 			userRatings.setRatings(Arrays.asList(new Rating("DDLJ", 3), new Rating("KGF", 4), new Rating("SM", 5)));
 		} else if (userId.equals("babydoll")) {
 			userRatings.setRatings(Arrays.asList(new Rating("A", 2), new Rating("B", 3), new Rating("R", 5)));
+		}else {
+			userRatings.setRatings(Arrays.asList(new Rating("Default", 0)));
 		}
 		return userRatings;
 	}

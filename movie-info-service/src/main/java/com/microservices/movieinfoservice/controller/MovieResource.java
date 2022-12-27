@@ -26,6 +26,6 @@ public class MovieResource {
 		}else if (movieId.equalsIgnoreCase("R")) {
 			return new Movie(movieId.toUpperCase(), "RRR", "This is a Tollywood Movie.");
 		}
-		return null;
+		return new Movie(movieId, "Default Movie name", "Default Movie");
 	}
 }
