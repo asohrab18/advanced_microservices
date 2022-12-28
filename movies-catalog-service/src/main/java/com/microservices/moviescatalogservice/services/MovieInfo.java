@@ -9,6 +9,7 @@ import com.microservices.moviescatalogservice.bean.CatalogItems;
 import com.microservices.moviescatalogservice.bean.Movie;
 import com.microservices.moviescatalogservice.bean.Rating;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 @Service
 public class MovieInfo {
@@ -19,7 +20,12 @@ public class MovieInfo {
 	@Value("${movie.apiurl}")
 	private String movieApiUrl;
 	
-	@HystrixCommand(fallbackMethod = "getFallbackCatalogItems")
+	@HystrixCommand(fallbackMethod = "getFallbackCatalogItems", 
+			threadPoolKey = "movieInfoPool", 
+			threadPoolProperties = {
+			@HystrixProperty(name = "coreSize", value = "20"), 
+			@HystrixProperty(name = "maxQueueSize", value = "10") 
+	})
 	public CatalogItems getCatalogItems(Rating rating) {
 		Movie movie = restTemp.getForObject(movieApiUrl + rating.getMovieId(), Movie.class);
 		return new CatalogItems(movie.getMovieName(), movie.getDescription(), rating.getRating());
