@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import com.microservices.moviescatalogservice.bean.Rating;
 import com.microservices.moviescatalogservice.bean.UserRatings;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 @Service
 public class UserRatingsInfo {
@@ -20,7 +21,11 @@ public class UserRatingsInfo {
 	@Value("${ratings.apiurl}")
 	private String ratingsApiUrl;
 
-	@HystrixCommand(fallbackMethod = "getFallbackUserRatings")
+	@HystrixCommand(fallbackMethod = "getFallbackUserRatings", commandProperties = {
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000"),
+			@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "5"),
+			@HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
+			@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "5000") })
 	public UserRatings getUserRatings(String userId) {
 		return restTemp.getForObject(ratingsApiUrl + userId, UserRatings.class);
 	}
