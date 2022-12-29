@@ -3,9 +3,12 @@ package com.configurations.springbootconfig.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.configurations.springbootconfig.DbSettings;
 
 @RestController
 public class AppController {
@@ -25,16 +28,25 @@ public class AppController {
 	@Value("${my.list.values}")
 	private List<String> listValues;
 
-	@Value("#{${dbValues}}")
-	private Map<String, String> dbValues;
+	@Value("#{${address}}")
+	private Map<String, String> location;
+
+	@Autowired
+	private DbSettings dbSettings;
 
 	@GetMapping("/greetings")
 	public String greetUser() {
-		return greetingMessage + "<br/>" + staticMessage + "<br/>" + listValues+ "<br/>" + dbValues;
+		return greetingMessage + "<br/>" + staticMessage + "<br/>" + listValues + "<br/>" + location;
 	}
 
 	@GetMapping("/app-details")
 	public String showAppDetails() {
 		return "<b>Application Name:</b> " + applicationName + "<br/><b>Description:</b> " + applicationDesc;
+	}
+
+	@GetMapping("/db-details")
+	public String getDatabaseInfo() {
+		return "<b>Connection URL:</b> " + dbSettings.getConnectionUrl() + "<br/><b>User:</b> " + dbSettings.getUser()
+				+ "<br/><b>Password:</b> " + dbSettings.getPassword() + "<br/><b>Host:</b> " + dbSettings.getHost() + "<br/><b>Port:</b> "+ dbSettings.getPort();
 	}
 }
