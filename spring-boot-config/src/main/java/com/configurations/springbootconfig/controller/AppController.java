@@ -29,14 +29,14 @@ public class AppController {
 	private List<String> listValues;
 
 	@Value("#{${address}}")
-	private Map<String, String> location;
+	private Map<String, String> addressLocation;
 
 	@Autowired
 	private DbSettings dbSettings;
 
 	@GetMapping("/greetings")
 	public String greetUser() {
-		return greetingMessage + "<br/>" + staticMessage + "<br/>" + listValues + "<br/>" + location;
+		return greetingMessage + "<br/>" + staticMessage + "<br/>" + listValues + "<br/>Address: " + addressLocation;
 	}
 
 	@GetMapping("/app-details")
