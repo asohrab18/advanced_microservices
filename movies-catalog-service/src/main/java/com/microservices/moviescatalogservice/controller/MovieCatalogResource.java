@@ -14,6 +14,7 @@ import com.microservices.moviescatalogservice.bean.CatalogItems;
 import com.microservices.moviescatalogservice.bean.MovieCatalogOfUser;
 import com.microservices.moviescatalogservice.bean.Rating;
 import com.microservices.moviescatalogservice.bean.UserDetails;
+import com.microservices.moviescatalogservice.bean.UserMovies;
 import com.microservices.moviescatalogservice.bean.UserRatings;
 import com.microservices.moviescatalogservice.repositories.UserDetailsRepository;
 import com.microservices.moviescatalogservice.services.MovieInfo;
@@ -50,5 +51,10 @@ public class MovieCatalogResource {
 		}
 		movieCatalogOfUser.setCatalogItemsList(catalogItemsList);
 		return movieCatalogOfUser;
+	}
+
+	@GetMapping("/user-movies/{userId}")
+	public UserMovies getUserMovies(@PathVariable("userId") String userId) {
+		return movieInfo.getUserMovies(userId);
 	}
 }
