@@ -1,7 +1,16 @@
 package com.microservices.movieinfoservice.bean;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Movie {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 	private String movieId;
 	private String movieName;
 	private String description;
@@ -9,11 +18,20 @@ public class Movie {
 	public Movie() {
 	}
 
-	public Movie(String movieId, String movieName, String description) {
+	public Movie(Integer id, String movieId, String movieName, String description) {
 		super();
+		this.id = id;
 		this.movieId = movieId;
 		this.movieName = movieName;
 		this.description = description;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getDescription() {

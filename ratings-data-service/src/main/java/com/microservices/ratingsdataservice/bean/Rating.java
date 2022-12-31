@@ -1,25 +1,46 @@
 package com.microservices.ratingsdataservice.bean;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Rating {
 
-	private String movieId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+
+	private Integer movieIdFk;
 	private Integer rating;
+	private String userId;
 
 	public Rating() {
 	}
 
-	public Rating(String movieId, Integer rating) {
+	public Rating(Integer id, Integer movieIdFk, Integer rating, String userId) {
 		super();
-		this.movieId = movieId;
+		this.id = id;
+		this.movieIdFk = movieIdFk;
 		this.rating = rating;
+		this.userId = userId;
 	}
 
-	public String getMovieId() {
-		return movieId;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setMovieId(String movieId) {
-		this.movieId = movieId;
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getMovieIdFk() {
+		return movieIdFk;
+	}
+
+	public void setMovieIdFk(Integer movieIdFk) {
+		this.movieIdFk = movieIdFk;
 	}
 
 	public Integer getRating() {
@@ -28,6 +49,14 @@ public class Rating {
 
 	public void setRating(Integer rating) {
 		this.rating = rating;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 }
