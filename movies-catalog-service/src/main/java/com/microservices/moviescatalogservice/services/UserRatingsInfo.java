@@ -32,7 +32,7 @@ public class UserRatingsInfo {
 
 	public UserRatings getFallbackUserRatings(String userId) {
 		UserRatings userRatings = new UserRatings();
-		userRatings.setRatings(Arrays.asList(new Rating(0,0,0,userId)));
+		userRatings.setRatings(Arrays.asList(new Rating(13, 13, 0, userId)));
 		return userRatings;
 	}
 }

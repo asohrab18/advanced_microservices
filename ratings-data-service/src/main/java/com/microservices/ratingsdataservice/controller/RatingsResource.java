@@ -27,7 +27,7 @@ public class RatingsResource {
 		List<Rating> ratings = ratingRepository.findByUserId(userId);
 		Optional<List<Rating>> ratingsOpt = Optional.ofNullable(ratings);
 		if(!ratingsOpt.isPresent() || ratings.isEmpty()) {
-			userRatings.setRatings(Arrays.asList(new Rating(0,0,0,userId)));
+			ratings = Arrays.asList(new Rating(0,0,0,userId));
 		}
 		userRatings.setRatings(ratings);
 		return userRatings;

@@ -1,6 +1,9 @@
 package com.microservices.moviescatalogservice.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.microservices.moviescatalogservice.bean.CatalogItems;
+import com.microservices.moviescatalogservice.bean.Movie;
 import com.microservices.moviescatalogservice.bean.MovieCatalogOfUser;
 import com.microservices.moviescatalogservice.bean.Rating;
 import com.microservices.moviescatalogservice.bean.UserDetails;
@@ -42,19 +46,30 @@ public class MovieCatalogResource {
 			movieCatalogOfUser.setUsername(userDetailsOpt.get().getUsername());
 			movieCatalogOfUser.setEmail(userDetailsOpt.get().getEmail());
 		}
-		List<CatalogItems> catalogItemsList = null;
+		List<CatalogItems> catalogItemsList = new ArrayList<CatalogItems>();
 		UserRatings userRatings = userRatingsInfo.getUserRatings(userId);
 		List<Rating> ratings = userRatings.getRatings();
+		Map<Integer, Movie> movieMap = new HashMap<Integer, Movie>();
 		if (ratings != null && !ratings.isEmpty()) {
-			catalogItemsList = ratings.stream().map(rating -> movieInfo.getCatalogItems(rating))
-					.collect(Collectors.toList());
+			UserMovies userMovies = movieInfo.getUserMovies(userId);
+			if (userMovies != null) {
+				List<Movie> movies = userMovies.getMovies();
+				if (movies != null && !movies.isEmpty()) {
+					movies.stream().forEach(m -> movieMap.put(m.getId(), m));
+				}
+			}
+			catalogItemsList = ratings.stream().map(r -> {
+				CatalogItems catalogItems = new CatalogItems();
+				catalogItems.setRating(r.getRating());
+				if (movieMap.containsKey(r.getMovieIdFk())) {
+					Movie movie = movieMap.get(r.getMovieIdFk());
+					catalogItems.setName(movie.getMovieName());
+					catalogItems.setDesc(movie.getDescription());
+				}
+				return catalogItems;
+			}).collect(Collectors.toList());
 		}
 		movieCatalogOfUser.setCatalogItemsList(catalogItemsList);
 		return movieCatalogOfUser;
-	}
-
-	@GetMapping("/user-movies/{userId}")
-	public UserMovies getUserMovies(@PathVariable("userId") String userId) {
-		return movieInfo.getUserMovies(userId);
 	}
 }
