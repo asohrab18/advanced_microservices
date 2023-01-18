@@ -14,7 +14,7 @@ public class YController {
 	@Value("${msg.greeting: Default Y Message}")
 	private String text;
 
-	@GetMapping("/greetings")
+	@GetMapping("/messages")
 	public String showMessage() {
 		return text;
 	}

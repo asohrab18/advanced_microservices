@@ -14,7 +14,7 @@ public class ZController {
 	@Value("${web.msg: Default Z Message}")
 	private String data;
 
-	@GetMapping("/info")
+	@GetMapping("/messages")
 	public String showMessage() {
 		return data;
 	}
