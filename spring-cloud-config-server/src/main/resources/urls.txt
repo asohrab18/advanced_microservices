@@ -1,0 +1,10 @@
+http://localhost:8888/microservice-x/default
+http://localhost:8888/microservice-x/uat
+http://localhost:8888/microservice-x/prod
+
+http://localhost:8085/config-client/greetings
+http://localhost:8085/config-client/db-details
+
+http://localhost:8087/microservice-x/messages
+http://localhost:8088/microservice-y/messages
+http://localhost:8089/microservice-z/messages
