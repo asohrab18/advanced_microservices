@@ -1,3 +1,6 @@
+http://localhost:8888/config-client-service/default
+http://localhost:8888/config-client-service/uat
+http://localhost:8888/config-client-service/prod
 http://localhost:8888/microservice-x/default
 http://localhost:8888/microservice-x/uat
 http://localhost:8888/microservice-x/prod
